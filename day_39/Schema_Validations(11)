@@ -1,0 +1,28 @@
+const bookSchema= new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+    },
+    author: {
+        type: String,
+    },
+    price: {
+        type:Number,
+    },
+});
+
+const Book=mongoose.model("Book",bookSchema);
+// DATA INSERT
+let book1= new Book({
+    title: "How to kill a Mockingbird",
+    author: "Harper Lee",
+    price: "abc",
+});
+book1
+    .save()
+    .then((res)=>{
+        console.log(res);
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
