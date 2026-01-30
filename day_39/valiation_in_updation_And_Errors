@@ -1,0 +1,16 @@
+Book.findByIdAndUpdate("697be2851b94d2920f24308d", {price: -100}, {runValidators:true})
+    .then((res)=>{
+        console.log(res);
+    })
+    .catch((err)=>{
+        console.log(err);             
+    })
+
+//---------- Error Handling{ har ek validation ke liye custom message create kar sakte hai}
+Book.findByIdAndUpdate("697be2851b94d2920f24308d", {price: -100}, {runValidators:true})
+    .then((res)=>{
+        console.log(res);
+    })
+    .catch((err)=>{
+        console.log(err.errors.price.properties.message);             
+    })
