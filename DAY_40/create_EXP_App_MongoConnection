@@ -1,0 +1,26 @@
+const express= require('express');
+// app create ki
+const app=express();
+// MONGOOSE sabse pehle require karna padega
+const mongoose = require("mongoose");
+const path=require("path");
+
+app.set("views",path.join(__dirname,"views"));
+app.set("view engine","ejs");
+// mongoose ke sath connection setup kar liya
+main().then(()=>{
+    console.log("connection successful")
+})
+.catch(err => console.log(err));
+
+async function main() {
+  await mongoose.connect('mongodb://127.0.0.1:27017/whatsapp'); // database name whatsapp
+}
+//  rount create
+app.get("/",(req,res)=>{
+    res.send("root is working");
+})
+// server setup
+app.listen(8080,()=>{
+    console.log('Server is running on port 8080');
+});
