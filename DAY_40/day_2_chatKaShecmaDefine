@@ -1,0 +1,38 @@
+const mongoose= require("mongoose");
+
+const chatSchema = new mongoose.Schema({
+    from:{
+        type:String,
+        required:true
+    },
+    to:{
+        type:String,
+        required:true
+    },
+    msg:{
+        type:String,
+        maxLength:50
+    },
+    create_at:{
+        type:Date,
+        required:true
+    }
+})
+// model create karege
+const Chat= mongoose.model("Chat",chatSchema);
+module.exports=Chat;
+
+// INSIDE THE INDEX.JS
+const Chat= require("./models/chat.js");
+
+// ye ek chat hai
+let chat1=new Chat({
+    from:"neha",
+    to:"priya",
+    msg:"send me your exam sheets",
+    // date create
+    create_at: new Date(),
+});
+chat1.save().then((res)=>{ // UTC
+    console.log(res);
+});
