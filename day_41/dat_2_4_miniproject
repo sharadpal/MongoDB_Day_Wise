@@ -1,0 +1,112 @@
+//----------APP JS 
+
+const express= require('express');
+const app= express();
+// required mongoosse
+const mongoose= require('mongoose');
+const Listing=require("./models/listing.js");
+
+//we create the database create
+const MONGO_URL= "mongodb://127.0.0.1:27017/wanderlust";
+
+// main fun ko call karne ke liye
+main()
+    .then(()=>{
+        console.log("connected to database");
+    })
+    .catch(err=>{
+        console.log(err);
+    })
+async function main(){
+    await mongoose.connect(MONGO_URL);
+}
+// basic api create
+app.get("/",(req,res)=>{
+    res.send("Hi, I am robot");
+})
+
+app.get("/testListing", async(req,res)=>{
+    let sampleListing= new Listing({
+        title:"my new Villa",
+        description: "by the beach",
+        price:1200,
+        location: "Calangute,Goa",
+        country: "India", 
+    });
+    await sampleListing.save();
+    console.log("sample was saved");
+    res.send("successful testing");
+})
+// server start port 8080
+app.listen(8080,()=>{
+    console.log('server is listening to port 8080');
+})
+ 
+
+  // ------  INSIDE MODEL APP   NAME IS LISTING.JS
+
+  const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+const listingSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+
+  description: String,
+
+  image: {
+    filename: {
+      type: String,
+      default: "listingimage",
+    },
+    url: {
+      type: String,
+      default:
+        "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+      set: (v) =>
+        v === ""
+          ? "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
+          : v,
+    },
+  },
+
+  price: Number,
+  location: String,
+  country: String,
+});
+
+const Listing = mongoose.model("Listing", listingSchema);
+module.exports = Listing;
+
+// ------------- INSIDE INIT FOLDER, NAME INDEX.JS
+
+// initialization ka logic likhege
+const mongoose = require("mongoose");
+const initData = require("./data.js");
+const Listing = require("../models/listing.js");
+
+const MONGO_URL= "mongodb://127.0.0.1:27017/wanderlust";
+
+// function ko stable karne ke liye
+main()
+    .then(()=>{
+        console.log("connected to database");
+    })
+    .catch(err=>{
+        console.log(err);
+    })
+async function main(){
+    await mongoose.connect(MONGO_URL);
+}
+
+const initDB= async()=>{
+    // pehle saare listing ko delete karenge
+    await Listing.deleteMany({});
+    await Listing.insertMany(initData.data);
+    console.log("data was initialized");
+}
+// initDB ko call karenge
+initDB();
+  
