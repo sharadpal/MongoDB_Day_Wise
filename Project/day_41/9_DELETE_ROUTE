@@ -1,0 +1,6 @@
+app.delete("/listings/:id",async(req,res)=>{
+    let {id}= req.params;
+    let deleteDlisting= await Listing.findByIdAndDelete(id);
+    console.log(deleteDlisting);
+    res.redirect("/listings"); 
+})
