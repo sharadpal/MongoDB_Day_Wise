@@ -1,0 +1,30 @@
+const ejsMate= require("ejs-mate");
+
+// use ejs-locals for all ejs templates:
+app.engine('ejs', ejsMate);
+// style file ko use karne ke liye we write 
+app.use(express.static(path.join(__dirname, "/public")));
+
+
+// INSIDE BOILERPLATE.EJS
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderLust</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+    <h1>WanderLust</h1>
+    <div class="content"><%- body %></div>
+</body>
+</html>
+
+//-------------- style.css
+
+body{
+    background-color: pink;
+}
+
