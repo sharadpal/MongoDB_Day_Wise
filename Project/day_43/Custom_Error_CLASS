@@ -1,0 +1,36 @@
+// custom error class, NAME ExpressError.js
+class ExpressError extends Error{
+    constructor(status,message){
+        //super() runs the constructor of the parent class (Error).
+        super();
+        this.status=status;
+        this.message=message;
+    }
+}
+// module.exports is used in Node.js to make variables, functions, classes,... 
+// or objects available to other files.
+module.exports=ExpressError;
+
+--------------------------------------
+  // APP.JS
+
+const checkToken=(req,res,next)=>{
+    let {token}=req.query;
+    if(token=="giveaccess"){
+        next();
+    }
+    throw new ExpressError(401,"ACCESS DENIED!");
+};
+
+----------------------------
+app.get("/err",(req,res)=>{
+    abcd=abcd;
+});
+// Default staus & message
+app.use((err,req,res,next)=>{
+    let {status=500,message="Some Error Occur"}=err;
+    res.status(status).send(message);
+})
+
+
+  
