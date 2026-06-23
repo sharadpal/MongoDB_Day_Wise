@@ -1,0 +1,9 @@
+Express.js:-  A helper function that wraps async route handlers so errors are automatically passed to Express's error middleware.
+
+
+
+function asyncWrap(fn){
+    return function(req, res,next){
+        fn(req, res,next).catch(err=> next(err));
+    }
+}
