@@ -1,0 +1,35 @@
+// SCHEMA.JS
+
+const Joi = require('joi');
+
+module.exports.listingSchema = Joi.object({
+    listing: Joi.object({
+        title:Joi.string().required(),
+        description:Joi.string().required(),
+        location:Joi.string().required(),
+        country:Joi.string().required(),
+        price:Joi.number().required().min(0),
+        images:Joi.string().allow("",null)
+
+    }).required(),
+})
+
+//---- app.js
+
+
+  const {listingSchema}= require("./schema.js");
+
+
+  app.post(
+    "/listings", 
+    wrapAsync( async(req,res,next)=>{
+        let result= listingSchema.validate(req.body);
+        console.log(result);
+        if(result.error){   
+            throw new ExpressError(400,result.error);
+        }
+        const newListing=new Listing(req.body.listing);  // instance banaya
+        await newListing.save();  // save kar diya
+        res.redirect("/listings");
+    })
+);
