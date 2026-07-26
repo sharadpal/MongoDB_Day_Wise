@@ -1,0 +1,26 @@
+// In instagram if delete the user but still showing his post this code work only
+
+
+// add new customer name and his order
+const addCust= async()=>{
+    let newCust= new Customer({
+        name: "karan Arjun"
+    });
+    
+    let newOrder= new Order({
+        item: "Pizza",
+        price:250
+    }); 
+
+    newCust.orders.push(newOrder);
+    await newOrder.save();
+    await newCust.save();
+    console.log("added new customer");
+};
+addCust();
+
+const delCust= async()=>{
+    let data= await Customer.findByIdAndDelete("6a65e85c38eb45666f3568d8");
+    console.log(data);
+}
+delCust();
