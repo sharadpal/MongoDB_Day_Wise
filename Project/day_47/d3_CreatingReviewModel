@@ -1,0 +1,31 @@
+// INSIDE REVIEW.JS
+
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+// we create new schema
+const reviewSchema= new Schema({
+    comment: String,
+    rating: {
+        type: Number,
+        min:1,
+        max:5
+    },
+    createAt:{
+        type: Date,
+        default: Date.now()
+    }
+});
+// es schema ko exports kar sakte hai
+module.exports= mongoose.model("Review", reviewSchema);
+
+
+
+// INSIDE LISTING.JS
+  reviews:[
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+    }
+  ]
+
