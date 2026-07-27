@@ -1,0 +1,16 @@
+// WHEN WE DELETE THE CUSTOMER DATA THEN HIS ORDER ALSO ALL DELETED 
+
+customerSchema.post("findOneAndDelete", async (customer) => {
+    if(customer.orders.length){
+        let res= await Order.deleteMany({ _id: { $in: customer.orders}}); // we use in operater {$}
+        console.log(res);
+    }
+});
+
+
+
+const delCust= async () => {
+    let data= await Customer.findByIdAndDelete("6a66035f7a68021837829d0d");
+    console.log(data);
+};
+delCust();
