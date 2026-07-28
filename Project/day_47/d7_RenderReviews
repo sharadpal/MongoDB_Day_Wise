@@ -1,0 +1,18 @@
+// show route, UPDATE ONLY populate method
+app.get("/listings/:id", wrapAsync(async(req,res)=>{
+    let {id}= req.params;
+    const listing= await Listing.findById(id).populate("reviews");
+    res.render("listings/show.ejs",{listing});
+}));
+
+
+
+//---IN SHOW.EJS { print all the reviews by using unorder list
+
+        <hr />
+        <h4> All Reviews</h4>
+        <ul>
+            <% for(review of listing.reviews){ %>
+                <li> <%= review.comment%>, <%=review.rating%> stars</li>
+            <% } %>
+        </ul>
