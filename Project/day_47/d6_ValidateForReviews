@@ -1,0 +1,26 @@
+// ----------IN SCHEMA.JS
+module.exports.reviewSchema= Joi.object({
+    review:Joi.object({
+        rating:Joi.number().required().min(1).max(5),
+        comment: Joi.string().required(),
+    }).required()
+    
+})
+
+
+//------APP.JS
+
+const {listingSchema,reviewSchema}= require("./schema.js");
+
+const validateReview=(req,res,next)=>{
+    let {error}= reviewSchema.validate(req.body);
+    if(error){  
+        let errMsg= error.details.map(el=> el.message).join(","); 
+        throw new ExpressError(400,errMsg);
+    }else{
+        next();
+    }
+};
+  
+
+  
