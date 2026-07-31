@@ -1,0 +1,33 @@
+const cookieParser=require("cookie-parser");
+
+// app.use(cookieParser());
+
+// if use the sing then pass the string otherwise not
+app.use(cookieParser("secretcode"));
+// send signed cookies
+app.get("/getsignedcookie",(req,res)=>{
+    res.cookie("made-in", "India",{signed: true});
+    res.send("signed cookies sent");
+})
+
+// Verify sent cookies
+app.get("/verify",(req,res)=>{
+    console.log(req.signedCookies);
+    res.send("verify!");
+});
+
+app.get("/getcookies",(req,res)=>{
+    res.cookie("greet","hello");    // name-value-pair
+    res.cookie("madeIn","India"); 
+    res.send("sent you some cookies! ");
+});
+
+app.get("/greet",(req,res)=>{
+    let{name="anonymous"}= req.cookies;
+    res.send(`Hi ${name}`);
+});
+
+app.get("/",(req,res)=>{
+    console.log(req.cookies);
+    res.send("Hi, i am root!");
+});
