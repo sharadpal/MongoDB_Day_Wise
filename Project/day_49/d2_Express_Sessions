@@ -1,0 +1,12 @@
+// -- install the package
+npm i express-session
+
+const session= require("express-session");
+
+app.use(session({secret:"mysupersecretstring"}));
+
+app.get("/test",(req,res)=>{
+    res.send("test successful");
+});
+
+NOTE- cookies side create the session-ID 
