@@ -1,0 +1,36 @@
+//--- flash message show only one time , if refrece the page it's disappear
+
+// we create one file PAGE.EJS
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%=msg %>
+    <h1>Hello , <%=name %></h1>
+</body>
+</html>
+
+//--------------------------------------
+  // INSIDE THE SERVER.JS
+const flash= require("connect-flash");
+const path= require("path");
+
+
+app.use(flash());
+
+app.get("/register",(req,res)=>{
+    let {name="anonymous"}=req.query;
+    req.session.name=name;
+    req.flash("success","user registered successfully");
+    res.redirect("/hello");
+});
+
+app.get("/hello",(req,res)=>{
+    res.render("page.ejs",{ name: req.session.name, msg: req.flash("success")});
+});
+
+  
