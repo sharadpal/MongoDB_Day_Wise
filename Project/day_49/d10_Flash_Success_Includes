@@ -1,0 +1,21 @@
+// app.js
+app.use((req,res,next)=>{
+    res.locals.success= req.flash("success");
+    next();
+})
+
+  // -- boilerplate.ejs
+
+  <div class="container">
+      <%- include("../includes/flash.ejs") %> <%-body%> 
+  </div>
+
+  //----- flash.ejs
+  <% if(success && success.length){ %>
+    <div class="alert alert-success  alert-dismissible fade show col-6 offset-3" role="alert"><%=success%>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+  //----listing.js and  Review.js [inside, update and delete] so warning message is print
+  req.flash("success","Listing Updated/Delete!");
