@@ -1,0 +1,11 @@
+We create a seprete middleware in main project file middleware.js and then pass all router - 
+       create/update/edit/delete Inside the routers/listing.js
+
+
+  module.exports.isLoggedIn=(req,res,next)=>{
+    if(!req.isAuthenticated()){
+        req.flash("error", "you must be logged in to create listing!");
+        return res.redirect("/login");
+    }
+    next();
+}
