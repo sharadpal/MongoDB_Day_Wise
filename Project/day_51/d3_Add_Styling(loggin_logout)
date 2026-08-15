@@ -1,0 +1,20 @@
+ // Creates the navbar  views/includes/navbar.ejs 
+
+   <div class="navbar-nav ms-auto">
+        <% if(!currUser){ %> 
+        <a class="nav-link"  href="/signup">Sign up</a>
+        <a class="nav-link" href="/login">Log in</a>
+        <% } else { %>
+        <a class="nav-link" href="/logout">Log out</a>
+        <% } %>
+      </div>
+
+
+// Starting we create obj then use ,because we can't direclty use currUse.
+
+     app.use((req,res,next)=>{
+    res.locals.success= req.flash("success");
+    res.locals.error= req.flash("error"); 
+    res.locals.currUser=req.user;
+    next();
+})
