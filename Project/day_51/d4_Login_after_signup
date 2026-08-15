@@ -1,0 +1,8 @@
+ if we going to sign up , no need to login , automatically going to main page 
+
+   // after signup we want to login the user automatically
+        req.login(registeredUser,(err)=>{
+            if(err) return next(err);
+            req.flash("success","Welcome to Wanderlust!");
+            res.redirect("/listings");
+        });
