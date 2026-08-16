@@ -1,0 +1,23 @@
+// we add only one option  -    models/listing.js
+
+  owner:{
+    type: Schema.Types.ObjectId,
+    ref:"User",
+  },
+
+// -----Index.js   add owner id 
+  initData.data=initData.data.map((obj)=>({ ...obj, owner: "6a7c2e5cec32abfbb5c74b98"}));
+
+//------ listing.js  adding only owner part
+// Create route
+router.post(
+    "/", isLoggedIn, validateListing,
+    wrapAsync( async(req,res,next)=>{
+        
+        const newListing=new Listing(req.body.listing);  // instance banaya
+        newListing.owner=req.user._id;
+        await newListing.save();  // save kar diya
+        req.flash("success","New Listing Created!");
+        res.redirect("/listings");
+    })
+);
