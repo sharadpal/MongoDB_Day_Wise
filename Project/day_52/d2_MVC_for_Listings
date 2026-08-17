@@ -1,0 +1,80 @@
+// ------- OLD LISTING  router/listing.js
+
+const listingController= require("../controllers/listings.js");
+// index route 
+router.get("/", wrapAsync(listingController.index));
+// NEW ROUTE
+router.get("/new",isLoggedIn ,listingController.renderNewForm);
+// show route
+router.get("/:id", wrapAsync(listingController.showListing));
+// Create route
+router.post(
+    "/", isLoggedIn, validateListing,
+    wrapAsync( listingController.createListing)
+);
+// Edit route
+router.get("/:id/edit",isLoggedIn , isOwner,wrapAsync(listingController.renderEditForm));
+// UPDATE ROUTE
+router.put("/:id", isLoggedIn, isOwner, validateListing, wrapAsync(listingController.updateListing));
+// DELETE ROUTE
+router.delete("/:id", isLoggedIn, isOwner ,wrapAsync(listingController.destroyListing));
+module.exports=router;
+
+//----------------->>>>>>>>>> NEW LISTING after MVC   controller/listing.js
+
+const Listing =require("../models/listing");
+// index is a  async function jiske kam whole listing ko render karana
+module.exports.index = async (req,res)=>{
+    const allListings=await Listing.find({});
+    // res.render("listings/index.ejs",{listings: allListings});
+    res.render("listings/index.ejs",{allListings});
+}
+    
+module.exports.renderNewForm = (req,res)=>{
+    res.render("listings/new.ejs");
+};
+
+module.exports.showListing=async(req,res)=>{
+    let {id}= req.params;
+    const listing= await Listing.findById(id).populate({ path:"reviews", populate:{path:"author",},}).populate("owner");
+    if(!listing){
+        req.flash("error","Listing you requested for does not exist!");
+        return res.redirect("/listings");
+    }
+    console.log(listing);
+    res.render("listings/show.ejs",{listing});
+};
+
+module.exports.createListing = async(req,res,next)=>{
+        
+    const newListing=new Listing(req.body.listing);  // instance banaya
+    newListing.owner=req.user._id;
+    await newListing.save();  // save kar diya
+    req.flash("success","New Listing Created!");
+    res.redirect("/listings");
+};
+
+module.exports.renderEditForm = async(req,res)=>{
+    let {id}= req.params;
+    const listing= await Listing.findById(id);
+    if(!listing){
+        req.flash("error","Listing you requested for does not exist!");
+        return res.redirect("/listings");
+    }
+    res.render("listings/edit.ejs",{listing});
+};
+
+module.exports.updateListing = async(req,res)=>{
+    let {id}= req.params;
+    await Listing.findByIdAndUpdate(id, {...req.body.listing}); // js ki object hai {} bali
+    req.flash("success","Listing Updated!");
+    res.redirect(`/listings/${id}`);   // show page per bhi redirect kar sakte hai  
+};
+
+module.exports.destroyListing = async(req,res)=>{
+    let {id}= req.params;
+    let deleteDlisting= await Listing.findByIdAndDelete(id);
+    console.log(deleteDlisting);
+    req.flash("success","Listing Deleted!");
+    res.redirect("/listings"); 
+};
