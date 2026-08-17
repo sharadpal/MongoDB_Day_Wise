@@ -1,0 +1,16 @@
+// CREATE new folder controller/listing.js
+const Listing =require("../models/listing");
+// index is a  async function jiske kam whole listing ko render karana
+module.exports.index = async (req,res)=>{
+    const allListings=await Listing.find({});
+    // res.render("listings/index.ejs",{listings: allListings});
+    res.render("listings/index.ejs",{allListings});
+}
+    
+
+//------------  INSIDE  routes/listing.js
+
+const listingController= require("../controllers/listings.js");
+
+// index route 
+router.get("/", wrapAsync(listingController.index));
