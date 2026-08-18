@@ -1,0 +1,29 @@
+//------------------------------->>>>>>>>>>>>>>>>   in Router/listing.js
+
+// router.route(path)
+router
+    .route("/")
+    .get(wrapAsync(listingController.index)) // index.route
+    .post(isLoggedIn, validateListing,wrapAsync( listingController.createListing) // create route
+);
+
+// NEW ROUTE
+router.get("/new",isLoggedIn ,listingController.renderNewForm);
+
+router.route("/:id")
+    .get(wrapAsync(listingController.showListing)) // show route
+    .put(isLoggedIn, isOwner, validateListing, wrapAsync(listingController.updateListing)) // update route
+    .delete(isLoggedIn, isOwner ,wrapAsync(listingController.destroyListing)) // delete route
+
+  
+//------------------------>>>>>>>>>>>>>>>>>>>>> Router/user.js
+
+  // user signup all routers in one route 
+router.route("/signup")
+    .get(userController.renderSignupForm)
+    .post(wrapAsyc (userController.signup))
+
+// user login all routers in one  route
+router.route("/login")
+    .get(userController.renderLoginForm)
+    .post(saveRedirectUrl, passport.authenticate("local",{failureRedirect:"/login",failureFlash:true,}),userController.login)
