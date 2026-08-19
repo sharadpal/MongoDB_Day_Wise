@@ -1,0 +1,14 @@
+//-------- install multer - send the file to backed by using node.js and it's understand
+npm i multer
+
+
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
+// router.route(path)
+router.route("/")
+    .get(wrapAsync(listingController.index)) // index.route
+    // .post(isLoggedIn, validateListing,wrapAsync( listingController.createListing) // create route
+    .post(upload.single('listing[image][url]'),(req,res)=>{
+        res.send(req.file);
+    });
