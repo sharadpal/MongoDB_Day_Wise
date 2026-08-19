@@ -1,0 +1,14 @@
+ We have cretae the account in cloudinary by my personal email , and then use the storage
+
+  install the env = npm i dotenv
+   
+// this is development phase not the production phase , if deployed it then production phase
+if(process.env.NODE_ENV!="production"){
+    require('dotenv').config();
+}
+
+//-------------------------- .env file
+CLOUD_NAME= ...
+CLOUD_API_KEY= ...
+CLOUD_API_SECRET= ...
+
