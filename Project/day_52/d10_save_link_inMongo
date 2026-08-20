@@ -1,0 +1,23 @@
+// change image structure
+  image:{
+    url:String,
+    filename: String,
+  },
+
+//-------------------   routes.listing.js         router.route(path)
+router
+    .route("/")
+    .get(wrapAsync(listingController.index)) // index.route, // upload.single('listing[image][url]')
+    .post(isLoggedIn,upload.single('listing[image]'), validateListing, wrapAsync( listingController.createListing)); // create route
+    
+//------------------>>>>>>>>>>>>>> Controllers/listings.js
+module.exports.createListing = async(req,res,next)=>{
+    let url=req.file.path;
+    let filename=req.file.filename;
+    const newListing=new Listing(req.body.listing);  // instance banaya
+    newListing.owner=req.user._id;
+    newListing.image={url,filename};
+    await newListing.save();  // save kar diya
+    req.flash("success","New Listing Created!");
+    res.redirect("/listings");
+};
