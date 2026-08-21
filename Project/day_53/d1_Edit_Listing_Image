@@ -1,0 +1,22 @@
+//---------- views/listings/new.ejs
+
+<div class="mb-3">
+      <label for="image" class="form-label">Upload Listing Image</label>
+      <input name="listing[image]" type="file" class="form-control" /> 
+      required
+</div>
+
+
+//----------------->>>>>>>>> views/listings/edit.ejs
+  <div class="mb-3">
+      <label for="image" class="form-label">Upload New Image</label>
+      <input name="listing[image]" type="file" class="form-control">
+      <div class="invalid-feedback">Please enter a valid link for Image</div>
+  </div>
+
+  //---------------------------------- routing/listing
+  router.route("/:id")
+    .get(wrapAsync(listingController.showListing)) // show route
+    .put(isLoggedIn, isOwner,upload.single('listing[image]'),  validateListing, wrapAsync(listingController.updateListing)) // update route
+
+  
