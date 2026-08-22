@@ -1,0 +1,29 @@
+//--------------------------boilerPlate.ejs
+ <link href="https://api.mapbox.com/mapbox-gl-js/v3.28.1/mapbox-gl.css" rel="stylesheet">
+ <script src="https://api.mapbox.com/mapbox-gl-js/v3.28.1/mapbox-gl.js"></script>
+
+//----------------------- views/listings/show.ejs{ add the one div }
+    <div class="col-8 offset-3 mb-3">
+      <h3>Where you'll be</h3>
+    <div id="map"></div>
+   <script src="/js/map.js"></script>
+
+//------------------------------- public/css/js/map.js  { create our map}
+  mapboxgl.accessToken=mapToken;
+    
+const map = new mapboxgl.Map({
+    container: 'map', // container ID
+    style:"mapbox://styles/mapbox/streets-v12",
+    center: [77.2090,28.6139], // starting position [lng, lat]. Note that lat must be set between -90 and 90
+    zoom: 9 // starting zoom
+});
+
+//-------------------------------  public/css/style.css
+/* Map */
+#map {
+    height: 400px;
+    width: 80vh;
+}
+
+//---------------------------------- .env file
+MAP_TOKEN=.................(my public token)...........
