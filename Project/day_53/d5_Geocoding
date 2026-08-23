@@ -1,0 +1,25 @@
+//----------------------------- Update   map.js
+mapboxgl.accessToken=mapToken;
+    
+const map = new mapboxgl.Map({
+    container: 'map', // container ID
+    style:"mapbox://styles/mapbox/streets-v12",
+    center: [77.2090,28.6139], // starting position [lng, lat]. Note that lat must be set between -90 and 90
+    zoom: 9 // starting zoom
+});
+
+//----------------->>>>>>>..................... update- controller/listings.js
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapToken= process.env.MAP_TOKEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapToken });
+
+module.exports.createListing = async(req,res,next)=>{
+    let response= await geocodingClient
+        .forwardGeocode({
+            query: req.body.listing.location,
+            limit: 1,
+        })
+        .send();
+    console.log(response.body.features[0].geometry);
+    res.send("done!");
+  
