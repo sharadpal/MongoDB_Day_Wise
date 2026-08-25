@@ -1,0 +1,24 @@
+//-------------------- given the styling    index.ejs
+
+.tax-toggle{
+        border: 1px solid black;
+        border-radius: 1rem;
+        height: 3.25rem;
+        padding: 1rem;
+        margin-left: 2rem;
+        display: flex;
+        align-items: center;
+    }
+
+//-------------------------- click the button 
+<script>
+    let taxSwitch=document.getElementById("switchCheckDefault");
+    taxSwitch.addEventListener("click",()=>{
+        let taxInfo=document.getElementsByClassName("tax-info");
+        for(info of taxInfo){
+           if(info.style.display!="inline"){
+                info.style.display="inline";
+           }else info.style.display="none";
+        }
+    });
+</script>
